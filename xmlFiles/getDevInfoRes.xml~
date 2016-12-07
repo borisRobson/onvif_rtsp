@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:sc="http://www.w3.org/2003/05/soap-encoding" xmlns:tt="http://www.onvif.org/ver10/schema" xmlns:tds="http://www.onvif.org/ver10/device/wsdl">
+ <s:Header/>
+ <s:Body>
+  <tds:GetDeviceInformationResponse>
+   <tds:Manufacturer>Paxton</tds:Manufacturer>
+   <tds:Model>Net2 Entry Panel</tds:Model>
+   <tds:FirmwareVersion>1.0</tds:FirmwareVersion>
+   <tds:SerialNumber>4085241</tds:SerialNumber>
+   <tds:HardwareId>1.0</tds:HardwareId>
+  </tds:GetDeviceInformationResponse>
+ </s:Body>
+</s:Envelope>
