@@ -19,6 +19,7 @@ public:
     void parse(QByteArray msg, char* src_addr, int src_port);
     QString parseHeader(QDomElement hdr);
     bool parseBody(QDomElement bdy);
+    //void start();
 
 signals:
     void send_udp(QString , char* , int );
@@ -27,6 +28,7 @@ signals:
 
 public slots:
     void parse_msg(QByteArray msg, char* src_addr, int port);
+    void start();
 
 private:
     udp_listen *listener;
@@ -44,6 +46,9 @@ public slots:
     void run();
 signals:
     void finished();
+    void beginRtsp();
+    void beginUdp();
+    void beginTcp();
 };
 
 #endif // UDP_HANDLER_H

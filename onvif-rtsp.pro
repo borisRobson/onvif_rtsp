@@ -55,7 +55,8 @@ SOURCES += main.cpp \
     udp_send.cpp \
     xml_handler.cpp \
     xml_creator.cpp \
-    rtsp_handler.cpp
+    rtsp_handler.cpp \
+    tcp_handler.cpp
 
 HEADERS += \
     udp_listen.h \
@@ -63,4 +64,5 @@ HEADERS += \
     udp_send.h \
     xml_handler.h \
     xml_creator.h \
-    rtsp_handler.h
+    rtsp_handler.h \
+    tcp_handler.h

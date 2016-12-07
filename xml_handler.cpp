@@ -4,6 +4,11 @@ xml_handler::xml_handler()
 {
     filepath =  "./tcpComms/xmltemplates/";    
 
+#ifdef IMX6
+    if(!createDir())
+        qDebug() << "could not create temp directory";
+#endif
+
     //load defalut values
     width = "640";
     height = "480";
@@ -181,4 +186,18 @@ void xml_handler::storeVidSrcCnfg( QString configWidth, QString configHeight, QS
     height = configHeight;
     framerate = configFramerate;
     create_getVidSourcesRes();
+}
+
+bool xml_handler::createDir()
+{
+    QString process = QString("mkdir /nvdata/tftpboot/xmlFiles");
+    QProcess *mkdir = new QProcess();
+    mkdir->start(process);
+
+    if(mkdir->waitForFinished())
+    {
+        if (mkdir->exitCode() == 0)
+            return true;
+    }
+    return false;
 }

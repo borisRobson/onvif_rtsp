@@ -35,49 +35,49 @@ var parseBody = function(data){
       } 
 
       if (method == (getSysDT)){
-        return("../xmlFiles/getSysDateTimeRes.xml");
+        return("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getSysDateTimeRes.xml");
       }
       else if(method == (getDNS)){
-        return("../xmlFiles/getDNSRes.xml");
+        return("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getDNSRes.xml");
       }
       else if(method == (getScopes)){
-        return("../xmlFiles/getScopesRes.xml");
+        return("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getScopesRes.xml");
       }
       else if(method == (getDevInfo)){
-        return("../xmlFiles/getDevInfoRes.xml");
+        return("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getDevInfoRes.xml");
       }
       else if(method == (getNtwkInts)){
-        return("../xmlFiles/getNetworkInterfacesRes.xml");
+        return("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getNetworkInterfacesRes.xml");
       }
       else if(method == (getCaps)){
-        return("../xmlFiles/getCapabilitiesRes.xml");
+        return("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getCapabilitiesRes.xml");
       }
       else if(method == (getScopes)){
-        return("../xmlFiles/getScopesRes.xml");
+        return("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getScopesRes.xml");
       }
       else if(method == (getCaps)){
-        return("../xmlFiles/getCapabilitiesRes.xml");
+        return("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getCapabilitiesRes.xml");
       }
       else if(method == (getVidSrc)){
-        return ("../xmlFiles/getVideoSourcesRes.xml")
+        return ("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getVideoSourcesRes.xml")
       }
       else if(method == (getServices)){
-        return ("../xmlFiles/getServicesRes.xml")
+        return ("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getServicesRes.xml")
       }
       else if(method == (getProfiles)){
-        return ("../xmlFiles/getProfilesRes.xml")
+        return ("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getProfilesRes.xml")
       }
       else if(method == (getProfile)){
-        return ("../xmlFiles/getProfileRes.xml")
+        return ("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getProfileRes.xml")
       }
       else if(method == (getSnapshot)){
-        return ("../xmlFiles/getSnapshotRes.xml")
+        return ("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getSnapshotRes.xml")
       }
       else if(method == (getStream)){
-        return ("../xmlFiles/getStreamUriRes.xml")
+        return ("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getStreamUriRes.xml")
       }
       else if(method == (getVidSrcConfig)){
-        return ("../xmlFiles/getVideoSourceConfigurationRes.xml")
+        return ("/home/standby/doorentry/apps/qtapps/onvif-rtsp/xmlFiles/getVideoSourceConfigurationRes.xml")
       }
       
       else{

@@ -1,7 +1,14 @@
 #include "rtsp_handler.h"
 
-rtsp_handler::rtsp_handler()
+GMainLoop *loop;
+GstRTSPServer *server;
+GstRTSPMediaMapping *mapping;
+GstRTSPMediaFactory *factory;
+
+rtsp_handler::rtsp_handler(QObject *parent)
 {
+    rtspServer = new rtsp_server(1, this);
+    setupServer();
 }
 
 /*define to enable user/admin pw*/
@@ -21,17 +28,14 @@ static gboolean timeout(GstRTSPServer * server, gboolean ignored)
     return true;
 }
 
-void rtsp_handler::start()
+void rtsp_handler::setupServer()
 {
-    GMainLoop *loop;
-    GstRTSPServer *server;
-    GstRTSPMediaMapping *mapping;
-    GstRTSPMediaFactory *factory;
 
 #ifdef WITH_AUTH
     GstRTSPAuth *auth;
     gchar *basic;
 #endif
+
 
     loop = g_main_loop_new(NULL, false);
 
@@ -58,6 +62,30 @@ void rtsp_handler::start()
      * any launch line works as long as it contains elements named pay%d
      * Each element w ith pay%d will be a stream*/
     factory = gst_rtsp_media_factory_new();
+
+}
+
+void rtsp_handler::start()
+{    
+    rtspServer->start(QThread::TimeCriticalPriority);
+}
+
+rtsp_server::rtsp_server(int ID, QObject *parent) :
+    QThread(parent)
+{
+    QObject::connect(this, SIGNAL(serve()), this, SLOT(beginServe()));
+    qDebug() << "RtspThread ID: " << ID  << " this thread: "<< this<< " Parent: " << parent;
+}
+
+void rtsp_server::run()
+{
+    emit beginServe();
+    exec();
+}
+
+void rtsp_server::beginServe()
+{
+    /*set launch & run main loop && exec()*/
 
 #ifdef IMX6
     gst_rtsp_media_factory_set_launch(factory, "("
@@ -89,10 +117,8 @@ void rtsp_handler::start()
     g_timeout_add_seconds(2, (GSourceFunc)timeout, server);
 
     //start serving
+    exec();
     g_main_loop_run(loop);
-
-    return;
-
 }
 
 void rtsp_handler::updateVidSrcCnfg()
@@ -103,3 +129,5 @@ void rtsp_handler::updateVidSrcCnfg()
 
     emit sendVidSrcCnfg(width , height, framerate);
 }
+
+

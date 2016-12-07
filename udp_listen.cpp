@@ -6,8 +6,11 @@ using namespace std;
 #define PROBE_GROUP "239.255.255.250"
 #define PROBE_MSG_SIZE 777
 
-udp_listen::udp_listen()
+udp_listen::udp_listen(int ID, QObject *parent) :
+                       QThread(parent)
 {
+    qDebug() << "UdpThread ID: " << ID  << " this thread: "<< this<< " Parent: " << parent;
+    QObject::connect(this, SIGNAL(beginListen()), this, SLOT(msgListen()));
     //Create and bind the udp listener
     string group(PROBE_GROUP);
     int port(PROBE_PORT);
@@ -59,32 +62,55 @@ udp_listen::udp_listen()
 
 void udp_listen::run()
 {
+
+    QTimer *msgtimer = new QTimer();
+    connect(msgtimer, SIGNAL(timeout()), this, SLOT(msgListen()));
+    msgtimer->setInterval(50);
+    msgtimer->start();
+
+    exec();
+}
+
+
+
+void udp_listen::msgListen()
+{
     socklen_t addrlen;
     int nbytes;
     char msgbuf[PROBE_MSG_SIZE];
+    addrlen = sizeof(addr);
 
-    while(1)
-    {
-        memset(&msgbuf, 0, PROBE_MSG_SIZE);
+    struct pollfd ufds;
+    int rv;
 
-        addrlen = sizeof(addr);
-        if((nbytes = recvfrom(fd, msgbuf, PROBE_MSG_SIZE, 0, (struct sockaddr*)&addr,&addrlen)) <0)
-        {
-            perror("recvfrom");
-            exit(1);
+    ufds.events = POLLIN;
+    ufds.fd = fd;
+
+    rv = poll(&ufds,1, 25);
+
+    if(rv == -1){
+        perror("poll");
+    }
+    else if(rv == 0){
+        //qDebug() << "no data after timeout";
+    }
+    else{
+        if(ufds.revents & POLLIN){
+            nbytes = recvfrom(fd, msgbuf, PROBE_MSG_SIZE, 0, (struct sockaddr*)&addr,&addrlen);
+
+            char* src_addr;
+            int src_port;
+
+            src_addr = inet_ntoa(addr.sin_addr);
+            src_port = ntohs(addr.sin_port);
+
+            QByteArray msg;
+            msg = QByteArray((char*)msgbuf);
+            emit dataRecieved(msg, src_addr, src_port);
+
+            memset(&msgbuf, 0, PROBE_MSG_SIZE);
+            msg.clear();
         }
-
-        char* src_addr;
-        int src_port;
-
-
-        src_addr = inet_ntoa(addr.sin_addr);
-        src_port = ntohs(addr.sin_port);
-
-        QByteArray msg;
-        msg = QByteArray((char*)msgbuf);
-        emit dataRecieved(msg, src_addr, src_port);
-        msg.clear();
     }
 }
 

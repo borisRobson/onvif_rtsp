@@ -3,15 +3,16 @@
 udp_handler::udp_handler(QObject *parent) :
     QObject(parent)
 {
-    QThreadPool::globalInstance()->setMaxThreadCount(15);
-    listener = new udp_listen();
+    listener = new udp_listen(0,this);
     sender = new udp_send();
 
     connect(listener, SIGNAL(dataRecieved(QByteArray,char*,int)), this, SLOT(parse_msg(QByteArray,char*,int)));
     connect(this,SIGNAL(send_udp(QString,char*,int)), sender, SLOT(send_udp(QString,char*,int)));
+}
 
-    listener->setAutoDelete(true);
-    QThreadPool::globalInstance()->start(listener);
+void udp_handler::start()
+{
+    listener->start(QThread::LowPriority);
 }
 
 void udp_handler::parse_msg(QByteArray msg, char* src_addr, int src_port)
@@ -43,7 +44,6 @@ void udp_handler::parse_msg(QByteArray msg, char* src_addr, int src_port)
         if(isNVT && msg_uid.length()!=0){
             emit send_udp(msg_uid, src_addr, src_port);
             emit probe_received();
-
         }
     }
 }

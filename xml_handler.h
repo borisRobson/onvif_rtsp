@@ -8,6 +8,7 @@
 #include <QUdpSocket>
 #include <QString>
 #include <QDateTime>
+#include <QProcess>
 
 #include "xml_creator.h"
 
@@ -32,6 +33,8 @@ public:
     void create_getProfileRes();
     void create_getStreamUriRes();
     void create_getVideoSourceConfigRes();
+
+    bool createDir();
 
 signals:
     void updateVidSrcConfig();

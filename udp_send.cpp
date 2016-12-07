@@ -11,8 +11,6 @@ void udp_send::send_udp(QString ID, char *addr, int port)
     QByteArray res =  create_probe_res(ID);
     QUdpSocket *socket = new QUdpSocket(this);
     QHostAddress send_addr = QHostAddress(addr);
-
-
     qint64 err =  socket->writeDatagram(res, send_addr, port);
     qDebug() << err;
 }
